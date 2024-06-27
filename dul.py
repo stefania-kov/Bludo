@@ -8,15 +8,32 @@ class Dish:
     def __str__(self):
         return f"Dish: {self.name}, Категория: {self.category}, Стоимость: {self.price}, Вес: {self.weight}"
 
-
 class Menu:
     def __init__(self, filename="ty.txt"):
+        self.filename = filename
         self.menu_dict = self.read_menu_from_file(filename)
+        self.count = len(self.menu_dict)  # Счетчик блюд
 
     def __iter__(self):
         """Позволяет итерировать по блюдам в меню."""
         return iter(self.menu_dict.values())
 
+    def appendDish(self, line):
+        """Добавляет блюдо в меню без записи в файл."""
+        parts = line.strip().split(';')
+        if len(parts) == 4:
+            name, category, price, weight = parts
+            try:
+                price = int(price)
+                weight = int(weight)
+                self.menu_dict[name] = Dish(name, category, price, weight)
+                self.count += 1  # Увеличиваем счетчик
+            except ValueError:
+                print(f"Некорректная стоимость или вес для блюда: {name}")
+        else:
+            print(f"Некорректная строка: {line.strip()}")
+
+             
     def read_menu_from_file(self, filename):
         """Считывает данные о блюдах из файла."""
         menu_dict = {}
@@ -37,4 +54,5 @@ class Menu:
         except FileNotFoundError:
             print(f"Файл '{filename}' не найден.")
         return menu_dict
+
 "# Bludo" 

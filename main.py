@@ -32,15 +32,32 @@ def btnAppendTable():
     win.lineEdit.clear()  # Очищаем поле ввода
     
 
+def btnDeleteTable():
+    selected_row = win.tableWidget.currentRow()
+    if selected_row >= 0:
+        selected_name = win.tableWidget.item(selected_row, 0).text()
+        Gr.deleteDish(selected_name)
+        updateTable()
 
+def btnUpdateTable():
+    selected_row = win.tableWidget.currentRow()
+    if selected_row >= 0:
+        selected_name = win.tableWidget.item(selected_row, 0).text()
+        new_name = win.lineEdit_2.text()  # Предполагаем, что новое имя блюда вводится в QLineEdit
+        new_category = win.lineEdit_3.text()  # Здесь нужно получить новую категорию
+        new_price = win.lineEdit_4.text()  # Здесь нужно получить новую цену
+        new_weight = win.lineEdit_5.text()  # Здесь нужно получить новый вес
+        Gr.updateDish(selected_name, new_name, new_category, new_price, new_weight)
+        updateTable()
 
 win.pushButton.clicked.connect(btnLoadTable)
 win.pushButton_3.clicked.connect(btnAppendTable)
-
-
+win.pushButton_4.clicked.connect(btnDeleteTable)
+win.pushButton_5.clicked.connect(btnUpdateTable)
 
 win.show()
 sys.exit(app.exec())
+
 
 
 "# Bludo" 
